@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocket</title>
+    <link rel="stylesheet" href="rocket.css">
+</head>
+
+<body>
+    <div class="scene">
+        <div id="rocket">
+            <img src="Rocket-fly.png" alt="" width="40px">
+        </div>
+        <div id="peng">
+            <img src="peng.png" alt="" width="40px">
+        </div>
+    </div>
+</body>
+
+<script src="jquery-3.6.0.js"></script>
+<script>
+    $(function() {
+        //网页总高度
+        let pageHeight = document.body.scrollHeight || document.documentElement.scrollHeight;
+        //浏览器高度
+        let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+
+        $('#rocket').css('top', windowHeight - 40);
+        //可滚动高度
+        let scrollAvail = pageHeight - windowHeight;
+        window.onscroll = function() {
+            //滚动条高度
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            // 火箭移动
+            if (scrollTop == 0) {
+                $("#rocket").removeClass("rocket");
+            } else {
+                $("#rocket").addClass("rocket");
+                if (scrollTop > 40 & scrollTop < 500) {
+                    $('#peng').fadeIn(200);
+                    $('#peng').css({
+                        'top': windowHeight - 40 + scrollTop,
+                    });
+                } else {
+                    // $('#peng').css('display', 'none');
+                    $('#peng').hide();
+                }
+            }
+            $('#rocket').css('top', windowHeight - 40 + scrollTop / scrollAvail * (scrollAvail - windowHeight + 40));
+        };
+        $('#rocket').click(function() {
+            if (document.documentElement.scrollTop > 0) {
+                $("html,body").animate({
+                    scrollTop: 0
+                }, 600);
+            }
+        });
+    });
+
+    function stars() {
+        let count = 50;
+        let scene = document.querySelector('.scene');
+        let i = 0;
+        while (i < count) {
+            let star = document.createElement('i');
+            let x = Math.floor(Math.random() * window.innerWidth);
+            let duration = Math.random() * 5;
+            let h = Math.random() * 10;
+            star.style.left = x + 'px';
+            star.style.width = 1 + 'px';
+            star.style.height = 50 + h + 'px';
+            star.style.animationDuration = duration + 's';
+
+            scene.appendChild(star);
+            i++;
+        }
+    }
+
+    stars();
+</script>
+
+</html>
